@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
 }
 
 .logo {
@@ -39,4 +40,23 @@
 
 .read-the-docs {
   color: #888;
+}
+
+
+.headerstyle
+{
+
+}
+
+.titleclass
+{
+  display: flex;
+ align-items: center;
+}
+
+.owntext
+{
+  text-align: center;
+  margin: 0%;
+  padding: 0%;
 }
