@@ -9,7 +9,5 @@ import Todoheader from './Components/Todoheader.jsx'
 import Cardbody from './Components/Cardbody.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
    <App/>
-  </StrictMode>,
 )

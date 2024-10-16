@@ -24,75 +24,140 @@ function Bsicapp()
   )
 }
  
-const cardlist=[];
+// let cardlist=[];
 
 function createacard(data,inputdata)
 {
   console.log("updated data:",data);  
   console.log("input data:",inputdata);
-//  cardlist.push(<Cardbody key={data.id}  id={data.id} name={data.name} dis={data.discript}/>);
-
-  return <Cardbody key={data.id}  id={data.id} name={data.name} dis={data.discript}/>
-  //return cardlist;
+  return <Cardbody key={data.id} hsd={handlestatus}/>
 }
 
+function testcompt(odata,checkmark,currentdata)
+{
+  console.log("testingggg--",odata)
+  const handlestatus=(curid,curstatus)=>{odata[curid].status=curstatus,console.log("data updated:",curid,curstatus,odata)}
+  let cardlist=[];
+  if(checkmark==='all'|| checkmark==='none')
+    {
+      cardlist= odata.map((todo)=>todo)
+    }else
+    {
+      cardlist=odata.filter((todo,index)=>todo.status==checkmark)
+    }
+  
+  currentdata=cardlist.map((tododata,index)=>
+  (<Cardbody 
+  key={index} 
+  dataid={tododata.id} 
+  dataname={tododata.name}
+  datadriscp={tododata.discript} 
+  status={tododata.status} 
+  hsd={handlestatus}/>))
 
-function testcompt(){
-  console.log("testingggg")
   return(
   <>
-    <h2>Todo Application dawwwwwwwwwwwwwww</h2>
+    {/*{console.log("odata before rendering--",checkmark,odata,cardlist)}*/}
+    <div key={"cc"} className="cardclass"> 
+    {/* {cardlist.map((tododata,index)=>(<Cardbody key={index} dataid={tododata.id} dataname={tododata.name} datadriscp={tododata.discript} hsd={handlestatus}/>))} */}
+    {console.log("odata after rendering--",checkmark,cardlist,currentdata)}
+    {/* {cardlist} */}
+    {currentdata}
+    </div>
   </>
   )
 }
 
-const Tododata=[[{}],0];
 
+//const handlestatus=(curid,curstatus)=>{setodata(odata=>odata[curid].status=curstatus)}
+//const handlestatus=(curid,curstatus)=>{console.log("data return:",curid,curstatus)}
+
+const Tododata=[[{}],0];
 let datacount=0;
+let filtermark="none";
 
 function App() {
 
-  const [count, setCount] = useState(0)
-
-  const data={id:"noid",name:"john doe",discript:"well this is intial discription",totalcount:0}
-  const [inputdata,setdata]= useState(data);
-  const [odata,setodata] =useState([{}]);
+  const [odata,setodata] =useState([]);
+  const [checkstate,setcheckstate]=useState();
+  const [currentlist,setlist]=useState([]);
+  const handlestatus=(curid,curstatus)=>{odata[curid].status=curstatus}
 
   useEffect(()=>{
     console.log("rerender:",odata);
   },[odata])
 
-  // const handlenamechange=(e)=>{  console.log("Name:",e.target.id,e.target.value) ; setdata(data.name=e.target.value)}
-  // const handledischange=(e)=>{  console.log("Discription:",e.target.id,e.target.value) ; setdata(data.name=e.target.value)}
-
   let inputname="";
   let inputdiscript="";
-  const handlebothinput=(namedata,disdata)=>{   
+
+
+  const handlebothinput=(namedata,disdata)=>
+  {   
     if(namedata && disdata)
       {
         const Tododata1={};
         Tododata1.id=datacount;
         Tododata1.name=namedata;
         Tododata1.discript=disdata;
+        Tododata1.status="none";
     
         console.log("current input:",Tododata1,odata);
         setodata(odata=>[...odata,Tododata1]);
         datacount=datacount+1;  
+
+        document.getElementById('defaultname').value='';
+        document.getElementById('defaultid').value='';
+        
       }else
       {
         alert("dont leve empty inputs");
       }
+      
     };
-  return (
 
+  // const handlefiltersystem=(odata,checkmark,currentdata)=>{
+  //   console.log("testingggg--",odata)
+  //   const handlestatus=(curid,curstatus)=>{odata[curid].status=curstatus,console.log("data updated:",curid,curstatus,odata)}
+  //   const cardlist=odata.filter((todo,index)=>todo.status==checkmark)
+  //   currentdata=cardlist.map((tododata,index)=>(<Cardbody key={index} dataid={tododata.id} dataname={tododata.name} datadriscp={tododata.discript} hsd={handlestatus}/>))
+  // }
+
+  const handlefiltersystem=(checktag)=>{
+    console.log("testingggg--",checktag,odata)
+    const handlestatus=(curid,curstatus)=>{odata[curid].status=curstatus,console.log("data updated:",curid,curstatus,odata)}
+    const cardlist=odata.filter((todo)=>todo.status==filtermark)
+    setlist(currentlist=>cardlist.map((tododata,index)=>(<Cardbody key={index} dataid={tododata.id} dataname={tododata.name} datadriscp={tododata.discript} hsd={handlestatus}/>)))
+  }
+
+
+  return (
     <>
       <h1>Todo Application</h1>
       <div key={"tc"} className="titleclass">
      
         <input type='text' placeholder='Todo Name' id='defaultname' onChange={(e)=>{inputname=e.target.value}}></input>
-        <input type='text' placeholder='Todo Discription' id='defaultid' onChange={(e)=>inputdiscript=e.target.value}></input>
+        <input type='text' placeholder='Todo Discription' id='defaultid' onChange={(e)=>{inputdiscript=e.target.value}}></input>
         <button onClick={() =>handlebothinput(inputname,inputdiscript)}>Add Todo test</button>
+        <label htmlFor="status-select">status:</label>
+
+
+        <select name="pets" id="status-select"
+         onChange={(e)=>{ {console.log(odata,e.target.value),
+         filtermark=e.target.value,setcheckstate(e.target.value),
+         testcompt(odata,filtermark,currentlist)}}}>
+
+          <option value="none">--Select--</option>
+            <option value="all">All</option>
+            <option value="c">Completed</option>
+            <option value="uc">Uncompleted</option>
+        </select>
+
+        <div key={"cc"} className="cardclass"> 
+        </div>
       </div>
+
+
+      {testcompt(odata,filtermark,currentlist)}
     </>
    
   )

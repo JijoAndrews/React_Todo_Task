@@ -46,7 +46,13 @@
 .titleclass
 {
   display: flex;
- align-items: center;
+  align-items: center;
+}
+
+.cardclass
+{
+  display: flex;
+  align-items: center;
 }
 
 .owntext
