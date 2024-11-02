@@ -1,17 +1,18 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-
 }
 
-.logo {
+/* .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
@@ -19,45 +20,134 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes logo-spin{
+  from{
+  transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+  transform: rotate(360deg);
   }
+} */
+
+.titletext
+{
+    margin:auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+
+
+.card 
+{
+  display: flex;
+  margin: 10px;
 }
 
-.card {
-  padding: 2em;
+
+
+.card-body
+{
+  display: grid;
+  width: 100%;
+  background-color: rgba(148, 253, 165, 0.637);
 }
 
-.read-the-docs {
+
+.card-text
+{
+  display: flex;
+  justify-content: flex-start;
+  padding: 5px;
+}
+
+
+.card-end
+{
+  display: flex;
+  padding-top: 5px;
+  justify-content: flex-end;
+}
+
+.read-the-docs
+{
   color: #888;
 }
 
+.bodyclass
+{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+
+.lableandselect
+{
+  display: flex;
+}
+
+
+.labletext
+{
+  display: flex;
+}
+
+.btnclass
+{
+  width: 100px;
+  margin: 25px;
+}
+
+.inputclass
+{
+  width: 300px;
+  margin: 25px;
+}
 
 .titleclass
 {
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .cardclass
 {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
+.dataclass
+{
+  display:flex;
+  align-items: center;
+}
 .owntext
 {
   text-align: center;
   margin: 0%;
   padding: 0%;
 }
+
+.btn-forselect
+{
+  margin: 10px;
+  
+}
+/* @media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  } */
+
+  @media (max-width: 760px) {
+    .titleclass {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .titletext{
+      font-size: 15px;
+    }
+    
+    
+  }

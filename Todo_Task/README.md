@@ -1,8 +1,9 @@
-# React + Vite
+# TODO Application React 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1.created a simple todo task application table with simple filter dropdown.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Instructions
+1.Add task with simple task name input and discription for the task on input fields.
+2.Task cards are equipped with edit and delete buttons.
+3.edit button enables editing tasks details and update it on the fly.
+4.delete button helps to delete task cards.

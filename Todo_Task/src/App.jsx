@@ -1,163 +1,167 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import './Components/Todoheader'
 import Cardbody from './Components/Cardbody'
+import Titlecomponent from './Components/Titlecomponent'
+import Selectmenu from './Components/Selectmenu'
 
-function Bsicapp()
+
+let curnteditid=0;
+let inputname="";
+let inputdiscript="";
+let datacount=0;
+
+
+
+function editdatasec(curid,odata,seteditstate)
 {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className='col-lg-4'>
-      <div className='col-sm-12'>
-        <h1>Vite + React</h1>
-        <div className="card">
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-          </button>
-        </div>
-      </div>   
-    </div>
-   
-  )
+  seteditstate("edit");
+  document.getElementById('defaultname').value=odata[curid].name
+  document.getElementById('defaultid').value=odata[curid].discript
+  inputname=odata[curid].name
+  inputdiscript=odata[curid].discript
+  curnteditid=curid;
 }
+
+
+function App() {
+  
+  const [odata,setodata] =useState([]);
+  const [checkstate,setcheckstate]=useState("none");
+  const [editstate,seteditstate]=useState("noediting");
+
+
+  useEffect(()=>{
+  },[odata])
+
  
-// let cardlist=[];
 
-function createacard(data,inputdata)
-{
-  console.log("updated data:",data);  
-  console.log("input data:",inputdata);
-  return <Cardbody key={data.id} hsd={handlestatus}/>
-}
+  const handlebothinput=(namedata,disdata,datastatus)=>
+  {   
+    if(namedata && disdata && editstate==="noediting")
+    {
+     
+      const Tododata1={};
+      Tododata1.id=odata.length;
+      Tododata1.name=namedata;
+      Tododata1.discript=disdata;
+      Tododata1.status="uc";
+  
+      const curdata=[...odata,Tododata1];
+      setodata(curdata);
+      
 
-function testcompt(odata,checkmark,currentdata)
-{
-  console.log("testingggg--",odata)
-  const handlestatus=(curid,curstatus)=>{odata[curid].status=curstatus,console.log("data updated:",curid,curstatus,odata)}
-  let cardlist=[];
-  if(checkmark==='all'|| checkmark==='none')
+      datacount=odata.length;  
+      document.getElementById('defaultname').value='';
+      document.getElementById('defaultid').value='';
+
+    }else if(namedata && disdata && editstate==="edit")
+    {
+      
+      const datachange = odata.map((d, i) => {
+        if (i===curnteditid) {
+         d.id=curnteditid,
+         d.name=namedata,
+         d.discript=disdata
+         return d;
+        }else {
+          return d;
+        }
+      });
+
+      document.getElementById('defaultname').value=""
+      document.getElementById('defaultid').value=""
+      inputname="";
+      inputdiscript="";
+    
+      seteditstate("noediting");
+    }else
+    {
+      alert("dont leve empty inputs");
+    }    
+  }
+  const handlebtnclick=(curid)=>{editdatasec(curid,odata,seteditstate)}
+
+  const checkdelete=(curid)=>
+    {
+      if(editstate==="edit" && inputname===odata[curid].name && inputdiscript===odata[curid].discript )
+      {
+        inputname= inputname===odata[curid].name?"":inputname
+        inputdiscript=inputdiscript===odata[curid].discript?"":inputdiscript
+        document.getElementById('defaultname').value=inputname
+        document.getElementById('defaultid').value=inputdiscript
+        seteditstate("noediting");
+      }
+
+      let val=odata.filter((d=>d.id!==curid)).map((d, i) => {
+        d.id=i;
+        return d;
+      })
+
+     datacount=val.length;
+      setodata(val);
+
+ 
+  }
+
+  const handlestatus=(curid,curstatus)=>
+  { let statusset=[...odata];
+  statusset[curid].status=curstatus;
+  setodata(statusset);
+  }
+  
+  const Createcardset=()=>
+  {
+    let cardlist=[];
+
+    if(checkstate==='all' || checkstate==='none')
     {
       cardlist= odata.map((todo)=>todo)
     }else
     {
-      cardlist=odata.filter((todo,index)=>todo.status==checkmark)
+      cardlist=odata.filter((todo,index)=>todo.status==checkstate)
     }
-  
-  currentdata=cardlist.map((tododata,index)=>
-  (<Cardbody 
-  key={index} 
-  dataid={tododata.id} 
-  dataname={tododata.name}
-  datadriscp={tododata.discript} 
-  status={tododata.status} 
-  hsd={handlestatus}/>))
-
-  return(
-  <>
-    {/*{console.log("odata before rendering--",checkmark,odata,cardlist)}*/}
-    <div key={"cc"} className="cardclass"> 
-    {/* {cardlist.map((tododata,index)=>(<Cardbody key={index} dataid={tododata.id} dataname={tododata.name} datadriscp={tododata.discript} hsd={handlestatus}/>))} */}
-    {console.log("odata after rendering--",checkmark,cardlist,currentdata)}
-    {/* {cardlist} */}
-    {currentdata}
-    </div>
-  </>
-  )
-}
-
-
-//const handlestatus=(curid,curstatus)=>{setodata(odata=>odata[curid].status=curstatus)}
-//const handlestatus=(curid,curstatus)=>{console.log("data return:",curid,curstatus)}
-
-const Tododata=[[{}],0];
-let datacount=0;
-let filtermark="none";
-
-function App() {
-
-  const [odata,setodata] =useState([]);
-  const [checkstate,setcheckstate]=useState();
-  const [currentlist,setlist]=useState([]);
-  const handlestatus=(curid,curstatus)=>{odata[curid].status=curstatus}
-
-  useEffect(()=>{
-    console.log("rerender:",odata);
-  },[odata])
-
-  let inputname="";
-  let inputdiscript="";
-
-
-  const handlebothinput=(namedata,disdata)=>
-  {   
-    if(namedata && disdata)
-      {
-        const Tododata1={};
-        Tododata1.id=datacount;
-        Tododata1.name=namedata;
-        Tododata1.discript=disdata;
-        Tododata1.status="none";
     
-        console.log("current input:",Tododata1,odata);
-        setodata(odata=>[...odata,Tododata1]);
-        datacount=datacount+1;  
-
-        document.getElementById('defaultname').value='';
-        document.getElementById('defaultid').value='';
-        
-      }else
-      {
-        alert("dont leve empty inputs");
-      }
+    const renddata=cardlist.map((tododata,index)=>
       
-    };
+      (<Cardbody 
+      key={index} 
+      dataid={tododata.id} 
+      dataname={tododata.name}
+      datadriscp={tododata.discript} 
+      status={tododata.status} 
+      hsd={handlestatus}
+      btnevnt={handlebtnclick}
+      delevnt={checkdelete}
+      />)
+    )
 
-  // const handlefiltersystem=(odata,checkmark,currentdata)=>{
-  //   console.log("testingggg--",odata)
-  //   const handlestatus=(curid,curstatus)=>{odata[curid].status=curstatus,console.log("data updated:",curid,curstatus,odata)}
-  //   const cardlist=odata.filter((todo,index)=>todo.status==checkmark)
-  //   currentdata=cardlist.map((tododata,index)=>(<Cardbody key={index} dataid={tododata.id} dataname={tododata.name} datadriscp={tododata.discript} hsd={handlestatus}/>))
-  // }
-
-  const handlefiltersystem=(checktag)=>{
-    console.log("testingggg--",checktag,odata)
-    const handlestatus=(curid,curstatus)=>{odata[curid].status=curstatus,console.log("data updated:",curid,curstatus,odata)}
-    const cardlist=odata.filter((todo)=>todo.status==filtermark)
-    setlist(currentlist=>cardlist.map((tododata,index)=>(<Cardbody key={index} dataid={tododata.id} dataname={tododata.name} datadriscp={tododata.discript} hsd={handlestatus}/>)))
-  }
-
-
-  return (
-    <>
-      <h1>Todo Application</h1>
-      <div key={"tc"} className="titleclass">
-     
-        <input type='text' placeholder='Todo Name' id='defaultname' onChange={(e)=>{inputname=e.target.value}}></input>
-        <input type='text' placeholder='Todo Discription' id='defaultid' onChange={(e)=>{inputdiscript=e.target.value}}></input>
-        <button onClick={() =>handlebothinput(inputname,inputdiscript)}>Add Todo test</button>
-        <label htmlFor="status-select">status:</label>
-
-
-        <select name="pets" id="status-select"
-         onChange={(e)=>{ {console.log(odata,e.target.value),
-         filtermark=e.target.value,setcheckstate(e.target.value),
-         testcompt(odata,filtermark,currentlist)}}}>
-
-          <option value="none">--Select--</option>
-            <option value="all">All</option>
-            <option value="c">Completed</option>
-            <option value="uc">Uncompleted</option>
-        </select>
-
-        <div key={"cc"} className="cardclass"> 
-        </div>
+    return(
+    <>      
+      <div key={"cc"} className="container"> 
+        <div className='row'>
+        {renddata}
+        </div> 
       </div>
+    </>
+    )
+  }
+  
+  return (
+    <>  
+     <div className='todoclass'>
+        
+        <h1>Todo Application</h1>
+        <Titlecomponent checkeditstate={editstate}  testhandleinput={handlebothinput}/>
 
+        <div className='bodyclass'>
+          <div className='labletext'>
+            <h5 className='titletext'>My Todos:</h5> 
+          </div>
+          <Selectmenu  checkstateevent={setcheckstate}/>
+        </div>
 
-      {testcompt(odata,filtermark,currentlist)}
+        <Createcardset/>
+     </div>
     </>
    
   )

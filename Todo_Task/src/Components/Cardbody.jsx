@@ -1,141 +1,55 @@
 import React from 'react'
-import { useState,useEffect} from 'react'
-import App from '../App'
+import '../App.css'
 
 
-function createcard(id,name,discrip,setfn)
-{
-  return (
-    <div key={id} className='col-lg-4'>
-      <div className='col-sm-12'>
-        <h1>Vite + React</h1>
-        <div className="card">
-
-        <button onClick={() =>{console.log("clicked")}}>
-            id is {id}
-            name is {name}
-            discrip is {discrip}
-        </button>
-
-          <label htmlFor="card-select">status:</label>
-          <select name="todos" id="card-select" onChange={(e)=>{e.target.value}}>
-          {/* console.log(e.target.value) */}
-            <option value="uc">Uncompleted</option>
-            <option value="c">Completed</option>
-
-          </select>
-
-        </div>
-        <button onClick={() =>{console.log("clicked")}}>
-          Edit
-        </button>
-
-        <button onClick={() =>{console.log("clicked")}}>
-          Delete
-        </button>
-      </div>   
-    </div>
-  )
-
-}
-
-// const Cardbody = ({dataid,dataname,datadriscp,hsd}) => 
-//   {
-
-   
-//   return (
-//    <>
-//    {/* {createcard(dataid,dataname,datadriscp,hsd)} */}
-//    <div key={dataid} className='col-lg-4'>
-//       <div className='col-sm-12'>
-//         <h1>Vite + React</h1>
-//         <div className="card">
-
-//         <button onClick={() =>{console.log("clicked")}}>
-//             id is {dataid}
-//             name is {dataname}
-//             discrip is {datadriscp}
-//         </button>
-
-//           <label htmlFor="card-select">status:</label>
-//           <select name="pets" id="card-select" onChange={(e)=>{console.log(dataid,e.target.value)}}>
-//             <option value="uc">Uncompleted</option>
-//             <option value="c">Completed</option>
-//           </select>
-
-//         </div>
-//         <button onClick={(e) =>{console.log("clicked")}}>
-//           Edit
-//         </button>
-
-//         <button onClick={(e) =>{console.log("clicked")}}>
-//           Delete
-//         </button>
-//       </div>   
-//     </div>
-//    </>
-//   )
-// }
-
-
-
-
-
-const Cardbody = ({dataid,dataname,datadriscp,status,hsd}) => 
+const Cardbody = ({dataid,dataname,datadriscp,status,hsd,btnevnt,delevnt}) => 
   {
-    console.log("card id;",dataid,status);
+    let bgcolor=status==='c'?"green":"red";
 
-    const selectedvalue=(currenstatus)=>{
-      if(currenstatus==="none")
-        {
-          (<label htmlFor={`card-select-${dataid}`}>status:</label>)
-            (<select name="pets" id= {`card-select-${dataid}`} onChange={(e)=>{hsd(dataid,e.target.value)}}>  
-            (<option value={hsd}>{hsd}</option>)    
-            (<option value="uc">Uncompleted</option>)
-            (<option value="c">Completed</option>)
-           </select>)
-        }else
-        {
-          (<label htmlFor={`card-select-${dataid}`}>status:</label>)
-          (<select name="pets" id= {`card-select-${dataid}`} onChange={(e)=>{hsd(dataid,e.target.value)}}>  
-          (<option value="none">select</option>)    
-          (<option value="uc">Uncompleted</option>)
-          (<option value="c">Completed</option>)
-         </select>)
-        }
-    }
-
+    const styledata=
+      {
+        backgroundColor:bgcolor,
+        display:"flex"
+      }
+    
     return (
       <>
-        <div key={dataid} className='col-lg-4'>
-        <div className='col-sm-12'>
-        <h1>Vite + React</h1>
-        <div className="card">
+        <div key={dataid} className='col-md-4'>
+          
+              <div className="card">
 
-          <button onClick={() =>{console.log("clicked")}}>
-                id is {dataid}
-                name is {dataname}
-                discrip is {datadriscp}
-          </button>
+                  <div className='card-body'>
+                    
+                    <div className='card-text'>
+                    Task: {dataname}
+                    </div>
 
-            <label htmlFor={`card-select-${dataid}`}>status:</label>
-            <select name="pets" id= {`card-select-${dataid}`}  defaultValue={status} onChange={(e)=>{hsd(dataid,e.target.value)}}>     
-            <option value="none">select status</option>
-            <option value="uc">Uncompleted</option>
-            <option value="c">Completed</option>
+                    <div className='card-text'>
+                    Discription: {datadriscp}
+                    </div>
 
-            </select>
+                    <div className='card-text'>
+                      <label htmlFor={`card-select-${dataid}`}>status:</label>
+                      <select  name="carddd" id= {`card-select-${dataid}`} onChange={(e)=>{hsd(dataid,e.target.value)}}  defaultValue={status}  style={styledata}>     
+                      <option  value="uc">Uncompleted</option>
+                      <option  value="c">Completed</option>
+                      </select>
+                    </div>
 
+                    <div className='card-end'>
+                      <button className='btn-forselect btn btn-success' onClick={(e) =>{btnevnt(dataid)}}>
+                        Edit
+                      </button>
+
+                      <button className='btn-forselect btn btn-danger' onClick={(e) =>{delevnt(dataid)}}>
+                        Delete
+                      </button>
+                    </div>
+
+                  </div>
+
+              </div>
         </div>
-         <button onClick={(e) =>{console.log("clicked")}}>
-          Edit
-        </button>
-
-        <button onClick={(e) =>{console.log("clicked")}}>
-          Delete
-         </button>
-      </div>   
-    </div>
       </>
     )
   }
